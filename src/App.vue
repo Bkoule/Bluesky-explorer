@@ -12,7 +12,7 @@
         <button>Enregistrer la recherche</button>
         <ul>
           <li v-for="search in preconfiguredSearches" :key="search.name">
-            <button>{{ search.name }}</button>
+            <button @click="useSearch(search.query)" >{{ search.name }}</button>
           </li>
         </ul>
       </aside>
@@ -81,6 +81,11 @@ export default {
     formatTimestamp(timestamp) {
       return dayjs(timestamp).fromNow()
     },
+
+    useSearch(query) {
+      this.searchQuery = query;
+      this.fetchPosts()
+    }
 
   },
 
