@@ -26,13 +26,18 @@
           :content="post.record.text"
           :timestamp="formatTimestamp(post.indexedAt)"
           :isSelected="selectedPosts.includes(post.uri)"
-          @toggle="togglePost(post.uri)"
+          @toggle="togglePost(post)"
           />
         </div>
       </section>
       <aside>
         <h2>Export</h2>
         <p> {{ exportMessage() }} </p>
+        <button 
+          @click="exportToExcel" 
+          :disabled="selectedPosts.length === 0" 
+          >Exporter
+        </button>
       </aside>
     </main>
   </div>
@@ -44,6 +49,7 @@ import PostCard from './components/PostCard.vue';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { debounce } from 'lodash';
+import * as XLSX from 'xlsx'
 
 dayjs.extend(relativeTime)
 
@@ -58,6 +64,7 @@ export default {
       posts: [],
       searchQuery: '',
       selectedPosts: [],
+      allSelectedPosts: {},
       savedSearches: [
         { "name": "Actualités Football", "query": "domain:lemonde.fr football" },
         { "name": "CSS examples", "query": "css code -#CodePenChallenge" },
@@ -97,12 +104,14 @@ export default {
       }
     },
 
-    togglePost(uri) {
-      const index = this.selectedPosts.indexOf(uri)
+    togglePost(post) {
+      const index = this.selectedPosts.indexOf(post.uri)
       if (index === -1) {
-        this.selectedPosts.push(uri)
+        this.selectedPosts.push(post.uri)
+        this.allSelectedPosts[post.uri] = post
       } else {
         this.selectedPosts.splice(index, 1)
+        delete this.allSelectedPosts[post.uri]
       }
     },
 
@@ -110,6 +119,21 @@ export default {
       if (this.selectedPosts.length === 0) return 'Pas de favoris';
       if (this.selectedPosts.length === 1) return '1 post sélectionné';
       return this.selectedPosts.length + " posts sélectionnés"
+    },
+
+    exportToExcel() {
+      const postsToExport = Object.values(this.allSelectedPosts)
+
+      const rows = postsToExport.map(post => ({
+        'Auteur': post.author.handle,
+        'Contenu': post.record.text,
+        'Date': post.indexedAt
+      }))
+
+      const worksheet = XLSX.utils.json_to_sheet(rows);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Posts");
+      XLSX.writeFile(workbook, "Mes_Posts_favoris.xlsx");
     }
 
   },
