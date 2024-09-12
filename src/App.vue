@@ -8,11 +8,11 @@
     </header>
     <main>
       <aside>
-        <h2>Recherches</h2>
-        <button @click="addNewSearch" >Enregistrer la recherche</button>
-        <ul>
+        <h2 class="search-title" >Recherches</h2>
+        <button class="add-search-btn"  @click="addNewSearch" >Enregistrer la recherche</button>
+        <ul class="saved-searches" >
           <li v-for="search in savedSearches" :key="search.name">
-            <button @click="useSearch(search.query)" >{{ search.name }}</button>
+            <button class="saved-searches-btn" @click="useSearch(search.query)" >{{ search.name }}</button>
           </li>
         </ul>
       </aside>
@@ -211,6 +211,46 @@ export default {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 10px;
+  }
+
+  .search-title {
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
+
+  .add-search-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .add-search-btn:hover {
+    background-color: #1991db;
+  }
+
+  .saved-searches {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+  }
+
+  .saved-searches-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #22303c;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .saved-searches-btn:hover {
+    background-color: #2c3e50;
   }
 
 </style>
