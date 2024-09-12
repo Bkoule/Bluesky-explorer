@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <header>
-      <h1>BlueSky Explorer</h1>
-      <div>
+      <h1 class="app-title" >BlueSky Explorer</h1>
+      <div class="search-bar" >
         <input type="text" v-model="searchQuery" @input="debouncedSearch" placeholder="Rechercher un post..">
       </div>
     </header>
@@ -16,7 +16,7 @@
           </li>
         </ul>
       </aside>
-      <section>
+      <section class="posts" >
         <h2>Posts</h2>
         <div class="post-grid" >
           <PostCard
@@ -147,6 +147,19 @@ export default {
 
 <style>
 
+  :root {
+    --primary-color: #1DA1F2;
+    --background-color: #15202b;
+    --text-color: #FFFFFF;
+    --secondary-color: #657786;
+
+  }
+
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+
   .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -156,13 +169,42 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--secondary-color);
+  }
+
+  .app-title {
+    font-size: 40px;
+    color: var(--primary-color);
+    margin: 0;
+  }
+
+  .search-bar input {
+    padding: 10px;
+    width: 300px;
+    background-color: var(--background-color);
+    border: 1px solid var(--secondary-color);
+    border-radius: 20px;
+    color: var(--text-color);
+    font-size: 15px;
+  }
+
+  .search-bar input:focus {
+    outline: none;
+    border-color: var(--primary-color);
   }
 
   main {
     display: grid;
     grid-template-columns: 200px 1fr 200px;
     gap: 20px;
+  }
+
+  .posts h2 {
+    font-size: 25px;
+    margin-bottom: 20px;
+    color: var(--primary-color);
   }
 
   .post-grid {
