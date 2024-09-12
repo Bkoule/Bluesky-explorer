@@ -18,13 +18,15 @@
       </aside>
       <section>
         <h2>Posts</h2>
-        <PostCard
+        <div class="post-grid" >
+          <PostCard
           v-for="post in posts"
           :key="post.id"
           :username="post.username"
           :content="post.content"
           :timestamp="post.timestamp"
           />
+        </div>
       </section>
       <aside>
         <h2>Export</h2>
@@ -60,16 +62,26 @@ export default {
 
   .container {
     max-width: 1200px;
+    margin: 0 auto;
   }
 
   header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
   }
 
   main {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 200px 1fr 200px;
+    gap: 20px;
   }
+
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
+  }
+
 </style>
