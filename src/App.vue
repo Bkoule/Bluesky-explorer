@@ -32,7 +32,7 @@
       </section>
       <aside>
         <h2>Export</h2>
-        <p>Pas de favoris</p>
+        <p> {{ exportMessage() }} </p>
       </aside>
     </main>
   </div>
@@ -104,6 +104,12 @@ export default {
       } else {
         this.selectedPosts.splice(index, 1)
       }
+    },
+
+    exportMessage() {
+      if (this.selectedPosts.length === 0) return 'Pas de favoris';
+      if (this.selectedPosts.length === 1) return '1 post sélectionné';
+      return this.selectedPosts.length + " posts sélectionnés"
     }
 
   },
