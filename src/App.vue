@@ -39,7 +39,10 @@
 <script>
 import axios from 'axios';
 import PostCard from './components/PostCard.vue';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime'
 
+dayjs.extend(relativeTime)
 
 export default {
   name: 'App',
