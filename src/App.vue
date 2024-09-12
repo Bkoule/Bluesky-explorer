@@ -9,7 +9,7 @@
     <main>
       <aside>
         <h2>Recherches</h2>
-        <button>Enregistrer la recherche</button>
+        <button @click="addNewSearch" >Enregistrer la recherche</button>
         <ul>
           <li v-for="search in preconfiguredSearches" :key="search.name">
             <button @click="useSearch(search.query)" >{{ search.name }}</button>
@@ -85,6 +85,13 @@ export default {
     useSearch(query) {
       this.searchQuery = query;
       this.fetchPosts()
+    },
+
+    addNewSearch() {
+      const name = prompt("Donnez un nom a votre recherche:")
+      if (name) {
+        this.preconfiguredSearches.push({ name, query: this.searchQuery })
+      }
     }
 
   },
