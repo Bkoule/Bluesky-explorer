@@ -3,7 +3,7 @@
     <header>
       <h1>BlueSky Explorer</h1>
       <div>
-        <input type="text" v-model="searchQuery" @input="fetchPost" placeholder="Rechercher un post..">
+        <input type="text" v-model="searchQuery" @input="debouncedSearch" placeholder="Rechercher un post..">
       </div>
     </header>
     <main>
@@ -41,6 +41,7 @@ import axios from 'axios';
 import PostCard from './components/PostCard.vue';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { debounce } from 'lodash';
 
 dayjs.extend(relativeTime)
 
@@ -56,10 +57,14 @@ export default {
       searchQuery: ''
     }
   },
+  
+  created() {
+    this.debouncedSearch = debounce(this.fetchPosts, 1000)
+  },
 
   methods: {
 
-    async fetchPost() {
+    async fetchPosts() {
       const response = await axios.get('https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts',{
         params: {
           q: 'lang:fr '+ this.searchQuery, limit: 20
@@ -70,12 +75,12 @@ export default {
 
     formatTimestamp(timestamp) {
       return dayjs(timestamp).fromNow()
-    }
+    },
 
   },
 
   mounted() {
-    this.fetchPost()
+    this.fetchPosts()
   }
 
 }
