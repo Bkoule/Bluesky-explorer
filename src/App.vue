@@ -11,9 +11,9 @@
         <h2>Recherches</h2>
         <button>Enregistrer la recherche</button>
         <ul>
-          <li>Actu foot</li>
-          <li>Css ex</li>
-          <li>Vaccins</li>
+          <li v-for="search in preconfiguredSearches" :key="search.name">
+            <button>{{ search.name }}</button>
+          </li>
         </ul>
       </aside>
       <section>
@@ -54,7 +54,12 @@ export default {
   data() {
     return {
       posts: [],
-      searchQuery: ''
+      searchQuery: '',
+      preconfiguredSearches: [
+        { "name": "Actualités Football", "query": "domain:lemonde.fr football" },
+        { "name": "CSS examples", "query": "css code -#CodePenChallenge" },
+        { "name": "Vaccins", "query": "vaccin -covid" }
+]
     }
   },
   
