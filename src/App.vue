@@ -3,7 +3,7 @@
     <header>
       <h1>BlueSky Explorer</h1>
       <div>
-        <input type="text" placeholder="Rechercher un post..">
+        <input type="text" v-model="searchQuery" @input="fetchPost" placeholder="Rechercher un post..">
       </div>
     </header>
     <main>
@@ -49,7 +49,8 @@ export default {
 
   data() {
     return {
-      posts: []
+      posts: [],
+      searchQuery: ''
     }
   },
 
@@ -58,7 +59,7 @@ export default {
     async fetchPost() {
       const response = await axios.get('https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts',{
         params: {
-          q: 'lang:fr', limit: 20
+          q: 'lang:fr '+ this.searchQuery, limit: 20
         }
       })
       this.posts = response.data.posts
