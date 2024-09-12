@@ -17,6 +17,10 @@
     }
 </script>
 
-<style>
-
+<style scoped>
+    .post-card {
+        border: 1px solid black;
+        padding: 10px;
+        border-radius: 5px;
+    }
 </style>
