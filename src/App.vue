@@ -25,6 +25,8 @@
           :username="post.author.handle"
           :content="post.record.text"
           :timestamp="formatTimestamp(post.indexedAt)"
+          :isSelected="selectedPosts.includes(post.uri)"
+          @toggle="togglePost(post.uri)"
           />
         </div>
       </section>
@@ -55,6 +57,7 @@ export default {
     return {
       posts: [],
       searchQuery: '',
+      selectedPosts: [],
       savedSearches: [
         { "name": "Actualités Football", "query": "domain:lemonde.fr football" },
         { "name": "CSS examples", "query": "css code -#CodePenChallenge" },
@@ -91,6 +94,15 @@ export default {
       const name = prompt("Donnez un nom a votre recherche:")
       if (name) {
         this.savedSearches.push({ name, query: this.searchQuery })
+      }
+    },
+
+    togglePost(uri) {
+      const index = this.selectedPosts.indexOf(uri)
+      if (index === -1) {
+        this.selectedPosts.push(uri)
+      } else {
+        this.selectedPosts.splice(index, 1)
       }
     }
 
