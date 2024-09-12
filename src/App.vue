@@ -30,10 +30,11 @@
           />
         </div>
       </section>
-      <aside>
-        <h2>Export</h2>
-        <p> {{ exportMessage() }} </p>
+      <aside class="export-aside" >
+        <h2 class="export-title" >Export</h2>
+        <p class="selection-count" > {{ exportMessage() }} </p>
         <button 
+          class="export-btn"
           @click="exportToExcel" 
           :disabled="selectedPosts.length === 0" 
           >Exporter
@@ -213,7 +214,7 @@ export default {
     gap: 10px;
   }
 
-  .search-title {
+  h2 {
     font-size: 25px;
     margin-bottom: 20px;
   }
@@ -251,6 +252,31 @@ export default {
 
   .saved-searches-btn:hover {
     background-color: #2c3e50;
+  }
+
+  .selection-count {
+    font-size: 15px;
+    margin-bottom: 15px;
+  }
+
+  .export-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
+  .export-btn:hover {
+    background-color: #1991db;
+  }
+
+  .export-btn:disabled {
+    background-color: #38444d;
+    cursor: not-allowed;
+    opacity: 0.7;
   }
 
 </style>
