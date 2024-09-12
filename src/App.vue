@@ -11,7 +11,7 @@
         <h2>Recherches</h2>
         <button @click="addNewSearch" >Enregistrer la recherche</button>
         <ul>
-          <li v-for="search in preconfiguredSearches" :key="search.name">
+          <li v-for="search in savedSearches" :key="search.name">
             <button @click="useSearch(search.query)" >{{ search.name }}</button>
           </li>
         </ul>
@@ -55,7 +55,7 @@ export default {
     return {
       posts: [],
       searchQuery: '',
-      preconfiguredSearches: [
+      savedSearches: [
         { "name": "Actualités Football", "query": "domain:lemonde.fr football" },
         { "name": "CSS examples", "query": "css code -#CodePenChallenge" },
         { "name": "Vaccins", "query": "vaccin -covid" }
@@ -90,7 +90,7 @@ export default {
     addNewSearch() {
       const name = prompt("Donnez un nom a votre recherche:")
       if (name) {
-        this.preconfiguredSearches.push({ name, query: this.searchQuery })
+        this.savedSearches.push({ name, query: this.searchQuery })
       }
     }
 
