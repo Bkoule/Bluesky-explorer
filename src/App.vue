@@ -24,7 +24,7 @@
           :key="post.id"
           :username="post.author.handle"
           :content="post.record.text"
-          :timestamp="post.indexedAt"
+          :timestamp="formatTimestamp(post.indexedAt)"
           />
         </div>
       </section>
