@@ -66,6 +66,10 @@ export default {
         }
       })
       this.posts = response.data.posts
+    },
+
+    formatTimestamp(timestamp) {
+      return dayjs(timestamp).fromNow()
     }
 
   },
