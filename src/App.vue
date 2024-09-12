@@ -22,9 +22,9 @@
           <PostCard
           v-for="post in posts"
           :key="post.id"
-          :username="post.username"
-          :content="post.content"
-          :timestamp="post.timestamp"
+          :username="post.author.handle"
+          :content="post.record.text"
+          :timestamp="post.indexedAt"
           />
         </div>
       </section>
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import PostCard from './components/PostCard.vue';
 
 
@@ -48,11 +49,25 @@ export default {
 
   data() {
     return {
-      posts: [
-        {id: 1, username: 'user 1', content: 'Post 1', timestamp: 'il y a 1 heure'},
-        {id: 1, username: 'user 2', content: 'Post 2', timestamp: 'il y a 1 heure'}
-      ]
+      posts: []
     }
+  },
+
+  methods: {
+
+    async fetchPost() {
+      const response = await axios.get('https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts',{
+        params: {
+          q: 'lang:fr', limit: 20
+        }
+      })
+      this.posts = response.data.posts
+    }
+
+  },
+
+  mounted() {
+    this.fetchPost()
   }
 
 }
