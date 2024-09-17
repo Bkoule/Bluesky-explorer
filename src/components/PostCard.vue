@@ -20,7 +20,8 @@
             username: String,
             content: String,
             timestamp: String,
-            isSelected : Boolean
+            isSelected : Boolean,
+            loading: Boolean
         }
     }
 </script>

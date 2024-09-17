@@ -18,7 +18,9 @@
       </aside>
       <section class="posts" >
         <h2>Posts</h2>
-        <div class="post-grid" >
+        <div v-if="loading" class="loader"> Chargement des posts.. </div>
+        <div v-else-if="error" class="error"> {{ error }} </div>
+        <div v-else class="post-grid" >
           <PostCard
           v-for="post in posts"
           :key="post.id"
@@ -69,8 +71,11 @@ export default {
       savedSearches: [
         { "name": "Actualités Football", "query": "domain:lemonde.fr football" },
         { "name": "CSS examples", "query": "css code -#CodePenChallenge" },
-        { "name": "Vaccins", "query": "vaccin -covid" }
-]
+        { "name": "Vaccins", "query": "vaccin -covid" },
+        
+],
+      loading: false,
+      error: null
     }
   },
   
@@ -81,12 +86,23 @@ export default {
   methods: {
 
     async fetchPosts() {
-      const response = await axios.get('https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts',{
+      this.loading = true;
+
+      try {
+        const response = await axios.get('https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts',{
         params: {
           q: 'lang:fr '+ this.searchQuery, limit: 20
         }
       })
       this.posts = response.data.posts
+      this.loading = false
+      } catch (error) {
+        console.error("Un problème est survenu pendant le chargement des données..", error)
+        this.error = 'Impossible de charger les posts.'
+        this.loading = false
+      }
+
+      
     },
 
     formatTimestamp(timestamp) {
@@ -278,6 +294,13 @@ export default {
     background-color: #38444d;
     cursor: not-allowed;
     opacity: 0.7;
+  }
+
+  .loader, .error {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    background-color:#38444d
   }
 
 </style>
